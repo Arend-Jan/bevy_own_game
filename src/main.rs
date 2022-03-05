@@ -1,24 +1,21 @@
 use bevy::prelude::*;
 
-mod main_menu;
-use main_menu::MainMenuPlugin;
+mod game;
+mod menu;
 
 #[derive(Debug, Clone, Eq, PartialEq, Hash)]
 enum AppState {
-    MainMenu,
+    Menu,
     InGame,
 }
 
+/// This example illustrates how to use [`States`] to control transitioning from a `Menu` state to
+/// an `InGame` state.
 fn main() {
     App::new()
         .add_plugins(DefaultPlugins)
-        .insert_resource(WindowDescriptor {
-            title: "My Own Game".to_string(),
-            vsync: true,
-            ..Default::default()
-        })
-        .insert_resource(ClearColor(Color::rgb(0.04, 0.04, 0.04)))
-        .add_state(AppState::MainMenu)
-        .add_plugin(MainMenuPlugin)
-        .run()
+        .add_state(AppState::Menu)
+        .add_plugin(menu::MenuPlugin)
+        .add_plugin(game::GamePlugin)
+        .run();
 }
